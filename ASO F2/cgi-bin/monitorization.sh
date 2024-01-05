@@ -61,11 +61,19 @@ while IFS= read -r line; do
     echo -e "<p>$date_string</p>"
 done <<< "$ten_last_accesses_info"
 
-
+uptime_result=$(uptime)
 time_up=$(uptime | awk '{print $3}')
-hours_up=$(echo $time_up | awk -F'[:,]' '{print $1}')
-minutes_up=$(echo $time_up | awk -F'[:,]' '{print $2}')
 
+#The format of the uptime command is "HH:MM" if the server has been running for more than 1 hour, otherwise is "MM min"
+if [[ "$uptime_result" == *"min"* ]]; then
+    #This means the format is MM min
+    hours_up=0
+    minutes_up=$time_up
+else
+    #This means the format is HH:MM
+    hours_up=$(echo $time_up | awk -F'[:,]' '{print $1}')
+    minutes_up=$(echo $time_up | awk -F'[:,]' '{print $2}')
+fi
 
 echo -e "
         <br>

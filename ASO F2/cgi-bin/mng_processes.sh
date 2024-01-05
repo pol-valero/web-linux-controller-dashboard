@@ -1,16 +1,61 @@
 #!/bin/bash
 
+readable_process_state() {
+    case "$1" in
+        "R")
+            echo "Running"
+            ;;
+        "S")
+            echo "Sleeping"
+            ;;
+        "D")
+            echo "Disk Sleep"
+            ;;
+        "I")
+            echo "Idle"
+            ;;
+        "Z")
+            echo "Zombie"
+            ;;
+        "T")
+            echo "Stopped"
+            ;;
+        "t")
+            echo "Tracing/Stopped"
+            ;;
+        "W")
+            echo "Paging"
+            ;;
+        "X")
+            echo "Dead"
+            ;;
+        *)
+            echo "Unknown state"
+            ;;
+    esac
+}
+
 #We use the psaux command to get the all the current processes information
 ps_output=$(ps aux)
 
-echo -e "Content-type: text/html\n\n<html>"
+echo -e "Content-type: text/html"
 
 echo -e "
+<!doctype html>
+<html>
 <head>
-    <title>Process Information</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <form action="../html/home.html" method="get">
+        <button type="submit">Home</button>
+    </form>
 </head>
+
 <body>
-    <h2>Process Information</h2>
+
+    <h1>Manage processes</h1>
+
+    <p><b>Current processes</b></p>
+
     <table border='1'>
         <tr>
             <th>User</th>
@@ -24,7 +69,8 @@ echo -e "
             <th>START</th>
             <th>TIME</th>
             <th>COMMAND</th>
-        </tr>"
+        </tr>
+"
 
 #The while loop is used to read the output of the psaux command line by line
 while IFS= read -r line; do
@@ -37,8 +83,28 @@ while IFS= read -r line; do
     fi
 done <<< "$ps_output"
 
+echo "</table>"
+
+echo -e "<p><b>Consult process state</b></p>
+        <form action='../cgi-bin/mng_processes.sh' method='get'>
+            <label>PID:</label>
+            <input id='pid' name='pid'><br><br>
+            <button class="btn2" type='submit'>Consult</button>
+"
+if [ -n "$QUERY_STRING" ]; then
+
+    input_pid=$(echo "$QUERY_STRING" | awk -F'=' '{print $2}')
+
+    process_state=$(ps -p "$input_pid" -o state --no-headers)
+
+    readable_process_state=$(readable_process_state "$process_state")
+
+    echo "<p>Process with PID $input_pid state: $readable_process_state ($process_state)</p>"
+
+fi
+
+
 echo "
-</table>
 </body>
 </html>
 "

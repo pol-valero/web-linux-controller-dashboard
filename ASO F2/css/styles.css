@@ -16,3 +16,20 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+.btn2 {
+    background-color: #026800;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width:fit-content;
+
+}
+
+.btn2:hover {
+    background-color: #004203;
+}

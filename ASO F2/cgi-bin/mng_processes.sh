@@ -1,40 +1,5 @@
 #!/bin/bash
 
-readable_process_state() {
-    case "$1" in
-        "R")
-            echo "Running"
-            ;;
-        "S")
-            echo "Sleeping"
-            ;;
-        "D")
-            echo "Disk Sleep"
-            ;;
-        "I")
-            echo "Idle"
-            ;;
-        "Z")
-            echo "Zombie"
-            ;;
-        "T")
-            echo "Stopped"
-            ;;
-        "t")
-            echo "Tracing/Stopped"
-            ;;
-        "W")
-            echo "Paging"
-            ;;
-        "X")
-            echo "Dead"
-            ;;
-        *)
-            echo "Unknown state"
-            ;;
-    esac
-}
-
 #We use the psaux command to get the all the current processes information
 ps_output=$(ps aux)
 
@@ -86,22 +51,31 @@ done <<< "$ps_output"
 echo "</table>"
 
 echo -e "<p><b>Consult process state</b></p>
-        <form action='../cgi-bin/mng_processes.sh' method='get'>
+        <form action='../cgi-bin/process_state.sh' method='get'>
             <label>PID:</label>
-            <input id='pid' name='pid'><br><br>
+            <input id='pid' name='pid' required>
             <button class="btn2" type='submit'>Consult</button>
+        </form>
 "
-if [ -n "$QUERY_STRING" ]; then
 
-    input_pid=$(echo "$QUERY_STRING" | awk -F'=' '{print $2}')
 
-    process_state=$(ps -p "$input_pid" -o state --no-headers)
+echo -e "<p><b>Interrupt process</b></p>
+        <form action='../cgi-bin/process_interrupt.sh' method='get'>
+            <label>PID:</label>
+            <input id='pid' name='pid' required>
+            <label>Time:</label>
+            <input id='time' name='time' required>
+            <button class="btn2" type='submit'>Interrupt</button>
+        </form>
+"
 
-    readable_process_state=$(readable_process_state "$process_state")
-
-    echo "<p>Process with PID $input_pid state: $readable_process_state ($process_state)</p>"
-
-fi
+echo -e "<p><b>Delete process</b></p>
+        <form action='../cgi-bin/process_delete.sh' method='get'>
+            <label>PID:</label>
+            <input id='pid' name='pid' required>
+            <button class="btn2" type='submit'>Delete</button>
+        </form>
+"
 
 
 echo "

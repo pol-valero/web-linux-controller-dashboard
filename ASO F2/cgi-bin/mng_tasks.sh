@@ -52,9 +52,7 @@ echo -e "
 "
 
 if [ -n "$arguments" ]; then
-    echo -e "
-    <p>Yes arguments</p>
-    "
+   
     existing_fcrontab_file=$(sudo fcrontab -l)
 
 
@@ -72,10 +70,6 @@ if [ -n "$arguments" ]; then
     fcrontab_table=$(sudo fcrontab -l)
     #echo -e "Result: $fcrontab_table"
 
-else
-    echo -e "
-    <p>No arguments</p>
-    "
 fi
 
 echo -e "
@@ -83,15 +77,31 @@ echo -e "
     <p><b>Fcrontab table</b></p>
     <table border='1'>
         <tr>
-            <th>Minute</th><th>Hour</th><th>Day</th><th>Month</th><th>Weekday</th><th>Path</th>
+            <th>Minute</th><th>Hour</th><th>Day</th><th>Month</th><th>Weekday</th><th>Path</th><th>Delete</th>
         </tr>
     "
 
 while IFS= read -r line; do
 
     echo "<tr>"
-    for i in {1..6}; do
-            echo "<td>$(echo "$line" | awk -v var="$i" '{print $var}')</td>"
+    for i in {1..7}; do
+
+            #For the last cell we create a button to delete the task
+            if [ "$i" -eq 7 ]; then
+                echo "<td>
+                    <form action='../cgi-bin/del_task.sh' method='get'>
+                        <button class="btn2" type='submit'>Delete</button>
+                        <input type='hidden' id='minute' name='minute' value='$(echo "$line" | awk '{print $1}')'>
+                        <input type='hidden' id='hour' name='hour' value='$(echo "$line" | awk '{print $2}')'>
+                        <input type='hidden' id='day_of_month' name='day_of_month' value='$(echo "$line" | awk '{print $3}')'>
+                        <input type='hidden' id='month' name='month' value='$(echo "$line" | awk '{print $4}')'>
+                        <input type='hidden' id='day_of_week' name='day_of_week' value='$(echo "$line" | awk '{print $5}')'>
+                        <input type='hidden' id='taskpath' name='taskpath' value='$(echo "$line" | awk '{print $6}')'>
+                    </form>
+                </td>"
+            else 
+                echo "<td>$(echo "$line" | awk -v var="$i" '{print $var}')</td>"
+            fi
     done
     echo "</tr>"
 

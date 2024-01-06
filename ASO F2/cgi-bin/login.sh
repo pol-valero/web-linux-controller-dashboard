@@ -36,11 +36,12 @@ then
     if [ "$hashed_entered_password" = "$hashed_existing_password" ];
     then
         echo -e "<p>Login successful</p>"
-         echo -e "
+        echo -e "
             <form action="../html/home.html" method="get">
             <button type="submit">Enter the system</button>
             </form>
         "
+        logger -t MYLOGS "User $username successfully logged in"
     else
         echo -e "<p>Wrong password</p>"
         echo -e "
@@ -48,6 +49,7 @@ then
             <button type="submit">Go back</button>
             </form>
         "
+        logger -t MYLOGS "User $username tried to log in with wrong password"
     fi
     
 else
@@ -57,6 +59,7 @@ else
             <button type="submit">Go back</button>
             </form>
         "
+    logger -t MYLOGS "User $username tried to log in but username does not exist"
 fi
 
 echo -e "

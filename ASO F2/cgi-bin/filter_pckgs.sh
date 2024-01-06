@@ -38,7 +38,9 @@ if [ -n "$destinationport" ]; then
     command_arguments="$command_arguments --dport $destinationport"
 fi
 
-sudo iptables -A $table $command_arguments -j $target
+if [ -n "$table" ]; then
+    sudo iptables -A $table $command_arguments -j $target
+fi
 
 
 echo -e "Content-type: text/html"

@@ -58,6 +58,7 @@ if [ $action = "ADD" ]; then
 else 
 
     echo "<p>All the OUTPUT table rules have been deleted</p>"
+    sudo iptables -F $table
 
 fi
 

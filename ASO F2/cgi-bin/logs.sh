@@ -21,12 +21,9 @@ echo -e "
     <h1>Logs</h1>
 "
 
-
 while IFS= read -r line; do
    echo -e "<p>$line</p>"
 done <<< "$logs"
-
-
 
 echo "
 </body>

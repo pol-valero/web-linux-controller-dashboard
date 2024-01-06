@@ -82,10 +82,8 @@ echo -e "
     "
 
 while IFS= read -r line; do
-
     echo "<tr>"
     for i in {1..7}; do
-
             #For the last cell we create a button to delete the task
             if [ "$i" -eq 7 ]; then
                 echo "<td>

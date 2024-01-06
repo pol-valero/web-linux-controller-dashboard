@@ -32,7 +32,8 @@ echo -e "
 "
 
 #We use sed to delete the line that matches the format from the fcrontab file
-sudo fcrontab -l | sed "/$fcrontab_line/d" | sudo fcrontab -
+sudo fcrontab -l | sed "\#$fcrontab_line#d" | sudo fcrontab -
+
 
 echo "
 

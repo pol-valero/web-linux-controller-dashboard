@@ -24,10 +24,13 @@ if [ -n "$QUERY_STRING" ]; then
     if getent passwd "$username" > /dev/null
     then
         echo -e "<p>This username already exists in the system</p>"
+        logger -t MYLOGS "Error while creating user, the username already exists in the system"
     else
         echo -e "<p>User with username $username created</p>"
         sudo useradd -m "$username"
         echo "$username:$password" | sudo chpasswd
+
+        logger -t MYLOGS "Created new user"
     fi
 
 fi

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Process state consulted"
+
 readable_process_state() {
     case "$1" in
         "R")

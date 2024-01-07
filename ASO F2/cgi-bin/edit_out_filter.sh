@@ -22,6 +22,8 @@ echo -e "
 
 if [ $action = "ADD" ]; then
 
+    logger -t MYLOGS "Entered ADD_FILTER functionality"
+
     echo -e "
         <form action='../cgi-bin/filter_pckgs.sh' method='get'>
             <input type="hidden" id="table" name="table" value="$table">
@@ -56,6 +58,7 @@ if [ $action = "ADD" ]; then
     "
 
 else 
+    logger -t MYLOGS "Filter deleted"
 
     echo "<p>All the OUTPUT table rules have been deleted</p>"
     sudo iptables -F $table

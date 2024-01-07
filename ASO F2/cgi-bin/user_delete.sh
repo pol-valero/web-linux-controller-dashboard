@@ -22,8 +22,10 @@ if [ -n "$QUERY_STRING" ]; then
     then
         echo -e "<p>User with username $username deleted</p>"
         sudo userdel -r "$username"
+        logger -t MYLOGS "Deleted user"
     else
         echo -e "<p>This username does not exist in the system</p>"
+        logger -t MYLOGS "Error while deleting user, the username does not exist in the system"
     fi
 
 fi

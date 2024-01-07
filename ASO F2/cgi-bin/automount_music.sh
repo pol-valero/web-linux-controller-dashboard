@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered AUTOMOUNT_MUSIC functionality"
+
 echo -e "Content-type: text/html"
 
 echo -e "

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Task deleted"
+
 minute=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $2}')
 hour=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $4}')
 day_of_month=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $6}')

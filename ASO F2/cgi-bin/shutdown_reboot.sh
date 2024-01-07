@@ -31,10 +31,12 @@ if [ -n "$QUERY_STRING" ]; then
     selected_option=$(echo "$QUERY_STRING" | awk -F'=' '{print $2}')
 
     if [ "$selected_option" = "reboot" ]; then
+        logger -t MYLOGS "Reboot option selected"
         echo -e "<p>Rebooting... You must wait a few moments until the reboot is complete in order to use the server again</p>"
         sudo shutdown -r now
     else
         if [ "$selected_option" = "shutdown" ]; then
+            logger -t MYLOGS "Shutdown option selected"
             echo -e "<p>Shutting down... Please, close the website as it will no longer work until the server is turned on again</p>"
             sudo shutdown -h now
         else

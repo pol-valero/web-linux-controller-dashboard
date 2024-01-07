@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered MANAGE_PROCESSES functionality"
+
 #We use the psaux command to get the all the current processes information
 ps_output=$(ps aux)
 

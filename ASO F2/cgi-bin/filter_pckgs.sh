@@ -1,5 +1,6 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered FILTER_PACKAGES functionality"
 
 #We get this values from the page where we add rules to the filter tables
 table=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $2}')
@@ -39,6 +40,7 @@ if [ -n "$destinationport" ]; then
 fi
 
 if [ -n "$table" ]; then
+    logger -t MYLOGS "Added filter rules"
     sudo iptables -A $table $command_arguments -j $target
 fi
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered CREATE_LOGS_BACKUP functionality"
+
 echo -e "Content-type: text/html"
 
 echo -e "
@@ -26,6 +28,7 @@ echo -e "
 query_argument=$(echo "$QUERY_STRING" | awk -F'=' '{print $2}')
 
 if [ "$query_argument" = "CREATE" ]; then
+    logger -t MYLOGS "Backup created"
     echo -e "<p>Backup created</p>"
     logs=$(grep -a MYLOGS /var/log/sys.log)
     touch /usr/myfiles/backup_$(date +"%d-%m-%Y_%H:%M:%S").txt

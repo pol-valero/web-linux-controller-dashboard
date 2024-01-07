@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered MONITORIZATION functionality"
+
 echo -e "Content-type: text/html"
 
 cpu_usage=$(top -bn1 | grep "Cpu" | awk -F'[:/]' '{print $2}')

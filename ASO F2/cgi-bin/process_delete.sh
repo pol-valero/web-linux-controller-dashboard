@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Delete process entered"
+
 echo -e "Content-type: text/html"
 
 echo -e "
@@ -21,6 +23,7 @@ if [ -n "$QUERY_STRING" ]; then
 
     if ! ps -p "$input_pid" > /dev/null; then
         echo "Process with PID $input_pid does not exist"
+        logger -t MYLOGS "PID of process to delete does not exist"
     else
 
         echo "<p>Process with PID $input_pid is being killed</p>"
@@ -30,9 +33,11 @@ if [ -n "$QUERY_STRING" ]; then
         if [ $? -eq 0 ]; then
             
             echo "<p>Process with PID $input_pid has been killed</p>"
+            logger -t MYLOGS "Process has been deleted"
           
         else
             echo "<p>ERROR: Process with PID $input_pid could not be killed</p>"
+            logger -t MYLOGS "Error while deleting process"
         fi
     
     fi

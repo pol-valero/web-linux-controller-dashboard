@@ -1,5 +1,7 @@
 #!/bin/bash
 
+logger -t MYLOGS "Entered MANAGE_TASKS functionality"
+
 minute=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $2}')
 hour=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $4}')
 day_of_month=$(echo "$QUERY_STRING" | awk -F'[=&?]' '{print $6}')
@@ -70,6 +72,7 @@ if [ -n "$arguments" ]; then
     fcrontab_table=$(sudo fcrontab -l)
     #echo -e "Result: $fcrontab_table"
 
+    logger -t MYLOGS "Added frcontab task"
 fi
 
 echo -e "
